@@ -1,0 +1,6 @@
+version: "3.3"
+services:
+  mywebsite:
+    image: nhtua/react-docker:latest
+    ports:
+      - "8080:80"
