@@ -7,10 +7,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <h1>
-          Hello ReactJs!
-        </h1>
-        <p> Youtube Channel - Software Engineer </p>
+      <a className"App-link" href="https://www.youtube.com/channel/UC64HFdJWvwuNt2ruywWvF-w">Youtube Channel - Software Engineer </a>
       </header>
     </div>
   );
