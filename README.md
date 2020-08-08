@@ -1,68 +1,46 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# React-Docker
 
-## Available Scripts
+> Read [Vietnamese version](./README-vn.md).
+> Đọc [phiên bản Tiếng Việt](./README-vn.md). 
 
-In the project directory, you can run:
+This is a demo for packaging and deploying a ReactJS project. App's source code was generated from command:
 
-### `npm start`
+```
+npx create-react-app
+```
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+It would help you understand how to apply Docker into a ReactJS project.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
 
-### `npm test`
+## Packaging ReactJs with Docker
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Run command
 
-### `npm run build`
+```
+docker build -t nhtua/react-docker .
+```
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+I would like to explain more about the way Dockerfile works. In this project, Dockerfile is using a feature called multi-stage build which is available from Docker 1.17. With this setup, Dockerfile has two stages.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+First stage, it use the based-image Node:14 to run the build command
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+npm install && npm run build
+```
+After build completed, all the assets file like html, css and js are placed in `/app/build`.
 
-### `npm run eject`
+The second stage, it use based-image Nginx to serve the static html as a web server. Dockerfile would copy the build from `/app/build` into `/usr/share/nginx/html` which is the default directly for serving a static website.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+In general, we use Nginx to run the web server for ReactJs, which absolutely optimizes for serving static html files and it's better than using `npm start` in development mode.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Deploy react-docker
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+There are two important files:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+-  `docker-compose.yaml` which declare how to run `react-docker` as a container.
+- `deploy.sh` is a utility script that helps deploying the latest react-docker image.
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+So to deploy, simply run command:
+```
+./deploy.sh
+```
