@@ -13,7 +13,7 @@ jobs:
     steps:
       - setup_remote_docker
       - checkout
-      - docker/check
+      - docker/check:
           docker-username: DOCKER_USER
           docker-password: DOCKER_PASSWORD
       - docker/build:
