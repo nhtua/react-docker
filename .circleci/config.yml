@@ -26,6 +26,13 @@ jobs:
       - run:
           command: |
             echo "Digest is: $(</tmp/digest.txt)"
+  deploy:
+    executor: docker/docker
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "f4:4b:6b:e3:f4:04:42:e8:5f:c3:b2:9e:69:15:46:79"
+      - run: ssh -oStrictHostKeyChecking=no circleci@138.197.149.107 './deploy.sh'
 
 workflows:
   my-pipeline:
@@ -38,3 +45,6 @@ workflows:
             branches:
               only:
                 - master
+      - deploy:
+          requires:
+            - build-and-push
