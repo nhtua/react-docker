@@ -7,9 +7,10 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
+        <h1>
           Hello ReactJs!
-        </p>
+        </h1>
+        <p> Youtube Channel - Software Engineer </p>
       </header>
     </div>
   );
