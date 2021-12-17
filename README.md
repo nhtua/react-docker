@@ -22,14 +22,14 @@ docker build -t nhtua/react-docker .
 
 I would like to explain more about the way Dockerfile works. In this project, Dockerfile is using a feature called multi-stage build which is available from Docker 1.17. With this setup, Dockerfile has two stages.
 
-First stage, it use the based-image Node:14 to run the build command
+First stage, it uses the based-image `node:14` to run the build command
 
 ```
 npm install && npm run build
 ```
 After build completed, all the assets file like html, css and js are placed in `/app/build`.
 
-The second stage, it use based-image Nginx to serve the static html as a web server. Dockerfile would copy the build from `/app/build` into `/usr/share/nginx/html` which is the default directly for serving a static website.
+The second stage, it uses a based-image Nginx to serve the static html as a web server. Dockerfile would copy the build from `/app/build` into `/usr/share/nginx/html` which is the default directly for serving a static website.
 
 In general, we use Nginx to run the web server for ReactJs, which absolutely optimizes for serving static html files and it's better than using `npm start` in development mode.
 
