@@ -1,13 +1,12 @@
-# my config
 version: 2.1
 orbs:
   node: circleci/node@3.0.0
   docker: circleci/docker@1.4.0
-
+#firt test
 jobs:
   build-and-push:
     environment:
-      DOCKER_IMAGE: nhtua/react-docker
+      DOCKER_IMAGE: phuongnam406/react-docker
       DOCKER_TAG: latest
     executor: docker/docker
     steps:
@@ -46,7 +45,3 @@ workflows:
             branches:
               only:
                 - master
-      # uncomment the 3 following lines to enable deploying
-      # - deploy:
-      #     requires:
-      #       - build-and-push
